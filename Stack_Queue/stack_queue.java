@@ -260,3 +260,10 @@ class Solution {
 
     }
 }
+
+// 
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        Stack<>
+    }
+}
