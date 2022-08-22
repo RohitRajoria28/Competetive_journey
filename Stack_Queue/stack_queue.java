@@ -261,9 +261,130 @@ class Solution {
     }
 }
 
-// 
+// Leetcode 84. Largest Rectangle in Histogram 
+
 class Solution {
-    public int largestRectangleArea(int[] heights) {
-        Stack<>
+    public int largestRectangleArea(int[] arr) {
+        Stack<Integer> st=new Stack<>();
+         
+        int n=arr.length;
+         
+        int rsmall[]=new int[n];
+         
+        int lsmall[]=new int[n];
+       
+         for(int i=0;i<n;i++){
+             int val=arr[i];
+             while(!st.empty() && arr[st.peek()]>=val){
+                st.pop();
+             }
+             if(st.empty()) lsmall[i]=0;
+             else lsmall[i]=st.peek()+1;
+             st.push(i);
+        }
+        
+        // right smaller 
+     
+         while(!st.empty()) st.pop();
+           
+            for(int i=n-1;i>=0;i--){
+                int val=arr[i];
+                while(!st.empty() && arr[st.peek()]>=val){
+                    st.pop();
+                }
+                if(st.empty()) rsmall[i]=n-1;
+                else rsmall[i]=st.peek()-1;
+
+                System.out.print(rsmall[i]+" ");
+                st.push(i);
+            }
+         
+       
+
+
+         
+        int max=-1;
+        for(int i=0;i<n;i++){
+             
+            max=Math.max(max,(rsmall[i]-lsmall[i]+1) * arr[i]);
+        }
+        return max;
+
     }
 }
+
+// 85 Maximal Rectangle 
+
+class Solution {
+    public int lah(int arr[]){
+        
+        for(int i: arr){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        Stack<Integer> st=new Stack<>();
+        int n=arr.length;
+        int []rsmall=new int[n];
+        int lsmall[]=new int[n];
+        
+//         left side smaller element 
+        for(int i=0;i<n;i++){
+            int val=arr[i];
+            while(!st.empty() && arr[st.peek()]>=val){
+                st.pop();
+            }
+            if(st.empty()) lsmall[i]=0;
+            else lsmall[i]=st.peek()+1;
+            
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+        //         rright side small
+        int max=-1;
+        for(int i=n-1;i>=0;i--){
+            int val=arr[i];
+            while(!st.empty() && arr[st.peek()]>=val){
+                st.pop();
+            }
+            if(st.empty()) rsmall[i]=n-1;
+            else rsmall[i]=st.peek()-1;
+            st.push(i);
+            max=Math.max(max,(rsmall[i]-lsmall[i]+1)*arr[i]);
+        }
+        return max;
+    }
+    public int maximalRectangle(char[][] matrix) {
+         int ro=matrix.length;
+        int col=matrix[0].length;
+        int mat[][]=new int[ro][col];
+        
+        for(int c=0;c<col;c++){
+            int h=0;
+            for(int r=0;r<ro;r++){
+                
+                h+=matrix[r][c]-'0';
+                
+                if(matrix[r][c]-'0'==0)  h=0;
+                mat[r][c]=h;
+            }
+        }
+        
+        int max=0;
+        for(int a[]:mat){
+            int area=lah(a);
+            // System.out.print(area+" ");
+            max=Math.max(max,area);
+        }
+        
+        return max;
+        
+    }
+}
+
+// leetcode validate stack Sequences 
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        
+    }
+} 
+
