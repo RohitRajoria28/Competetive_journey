@@ -37,11 +37,11 @@ class  inheritance_example {
       System.out.println(obj.d); // conflict (object has P.d and C.d, resolved by  )
       System.out.println(((P)obj).d); // conflict (object has P.d and C.d, resolved by ref -> P)
       System.out.println(obj.d1); // available only in P
-    //   System.out.println(obj.d2); // available only in C
+      System.out.println(obj.d2); // available only in C so it will not print
       
       obj.fun(); // available at C first
       obj.fun1(); // available only in P
-    //   obj.fun2(); // available only in C
+      obj.fun2(); // available only in C so it will not print
   }
 
 
