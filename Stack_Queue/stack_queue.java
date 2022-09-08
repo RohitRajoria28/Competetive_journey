@@ -650,3 +650,252 @@ class Solution {
         return ans;
     }
 }
+
+// 1381. Design a Stack With Increment Operation
+
+class CustomStack {
+    int inc[];
+    int st[];
+    int idx;
+
+    public CustomStack(int max ) {
+        inc=new int[max];
+        st=new int[max];
+        idx=-1;
+    }
+    
+    public void push(int x) {
+        if(idx+1==inc.length ) return ;
+        idx++;
+        st[idx]=x;
+        inc[idx]=0;
+        
+    }
+    
+    public int pop() {
+        if(idx==-1) return -1;
+        
+        int val=st[idx];
+        int ic=inc[idx];
+        idx--;
+        if(idx>=0){
+            inc[idx]+=ic;
+        }
+        
+        return val+ic;
+    }
+    
+    public void increment(int k, int val) {
+        int i=Math.min(k-1,idx);
+        
+        if(idx>=0) inc[i]+=val;
+        
+    }
+}
+
+ // 641. Design Circular Deque
+
+class MyCircularDeque {
+    public class Node{
+        int val;
+        Node prev,next;
+        Node(){
+
+        }
+        Node(int val){
+            this.val=val;
+        }
+        public void delete(){
+            prev.next=next;
+            next.prev=prev;
+        }
+    }
+    int size;
+    Node front;
+    Node rear;
+    int maxSize;
+    public MyCircularDeque(int k) {
+        front=new Node();
+        rear=new Node();
+        maxSize=k;
+        front.next=rear;
+        rear.prev=front;
+        size=0;
+    }
+    
+    public boolean insertFront(int value) {
+        if(size==maxSize) return false;
+        Node n=new Node(value);
+        n.prev=front;
+        n.next=front.next;
+
+        n.next.prev=n;
+        front.next=n;
+
+        size++;
+        return true;
+    }
+    
+    public boolean insertLast(int value) {
+         if(size==maxSize) return false;
+        Node n=new Node(value);
+
+        n.next=rear;
+        n.prev=rear.prev;
+        
+        n.prev.next=n;
+        rear.prev=n;
+        size++;        
+        
+        return true;
+    }
+    
+    public boolean deleteFront() {
+        if(size==0) return false;
+        Node n=front.next;
+        int val=n.val;
+
+        n.delete();
+        size--;
+        return true;
+        
+    }
+    
+    public boolean deleteLast() {
+        if(size==0) return false;
+
+        Node n=rear.prev;
+        int val=n.val;
+        n.delete();
+        size--;
+        return true;
+    }
+    
+    public int getFront() {
+        if(size==0) return -1;
+
+        return front.next.val;
+    }
+    
+    public int getRear() {
+        if(size==0) return -1;
+        return rear.prev.val;
+    }
+    
+    public boolean isEmpty() {
+        return size==0;
+    }
+    
+    public boolean isFull() {
+        return size==maxSize;
+    }
+}
+
+
+// LintCode maxStack 
+
+class MaxStack {
+    Stack<Integer> data,max;
+
+    public MaxStack() {
+         data=new Stack<>();
+         max=new Stack<>();
+    }
+
+      
+    public void push(int x) {
+         
+
+        data.push(x);
+        int maxx=x;
+        if(max.size()>0)
+         maxx=Math.max(x,max.peek());
+       
+       max.push(maxx);
+    }
+
+    public int pop() {
+        if(data.size()<=0) return -1; 
+         max.pop();
+        return data.pop();
+    }
+ 
+    public int top() {
+        return data.peek();
+    }
+
+    
+    public int peekMax() {
+        return max.peek();
+    }
+
+   
+    public int popMax() {
+
+        int tbr=max.peek();
+        Stack<Integer> buffer=new Stack<>();
+        while(tbr!=data.peek()){
+            int res=pop();  
+           buffer.push(res); 
+        }  
+        pop();
+
+        while(buffer.size()>0) push(buffer.pop());
+
+        return tbr;
+    }
+} 
+
+
+// leetcode check if word is valid after insertion 
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> st=new Stack<>();
+         
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+
+            if(c=='a' || c=='b'){
+                st.push(c);
+            }else {
+                if(st.size()>=2 && (st.pop()=='b' && st.pop()=='a')){
+                    
+                }else{
+                    return false;
+                }
+
+            } 
+        }
+
+        return st.size()==0;
+    }
+}
+
+//leetcode  design Hit counter
+
+static class HitCounter {
+ 
+   ArrayDeque<Integer> dq   ;
+    public HitCounter() {
+        dq=new ArrayDeque<>();
+    }
+ 
+    public void hit(int timestamp) {
+    dq.add(timestamp);
+        int start=timestamp-300+1;
+        while(   dq.peek()<start) dq.remove();
+        
+    }
+ 
+    public int getHits(int timestamp) {
+        
+       int start=timestamp-300+1;
+        while(dq.peek()<start) dq.remove();
+        
+
+        return dq.size();
+    }
+
+  
+}
