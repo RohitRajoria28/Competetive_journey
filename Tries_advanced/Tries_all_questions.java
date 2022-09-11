@@ -289,3 +289,543 @@ class Solution {
   }
 }
 
+
+// Count of distinct substrings
+
+class GfG
+{
+    public static class Node{
+        Node link[]=new Node[26];
+
+        boolean containsKey(char c){
+            return (link[c-'a'])!=null;
+        }
+
+        public Node get(char c){
+            return link[c-'a'];
+        }
+
+        public void put(char c,Node node){
+            link[c-'a']=node;
+        } 
+    } 
+
+    
+   public static int countDistinctSubstring(String st)
+   {
+        Node root=new Node();
+        int count =0;
+        for(int j=0;j<st.length();j++){
+            Node node=root;
+            for(int i=j;i<st.length();i++){
+            char c=st.charAt(i);
+
+            if(!node.containsKey(c)){
+                 node.put(c,new Node());
+                 count++;
+            }
+            node=node.get(c);
+          }
+        }
+        
+        return count+1;
+      
+   }
+} 
+
+// leetcode  421. Maximum XOR of Two Numbers in an Array
+
+class Solution {
+    public class Node{
+        Node []arr=new Node[2];
+
+        Node get(int i){
+            return arr[i];
+        }
+
+        boolean containsKey(int i){
+            return arr[i]!=null;
+        }
+
+        void put(int i,Node node){
+            arr[i]=node;
+        }
+
+
+    }
+
+    public class Trie{
+
+        public static Node root;
+
+        Trie(){
+            root=new Node();
+        }
+
+        void insert(int num){
+            Node node=root;
+            for(int i=31;i>=0;i--){
+                int bit=num | (1<<i);
+
+                if(!node.containsKey(bit)){
+                    node.put(bit,new Node());
+                }
+                node=node.get(bit);
+            }
+        }
+
+        public int getMax(int num){
+            Node node=root;
+
+            int max=0;
+
+            for(int i=31;i>=0;i--){
+                int bit=(num>>i) & 1;
+                if(node.containsKey(1-bit)){
+                    max=max | (1<<i) ;
+                    node=node.get(1-bit);
+                }else{
+                    node=node.get(bit);
+                }
+            }
+
+
+            retur max;
+        }
+    }
+ 
+    public int findMaximumXOR(int[] nums) {
+          Trie trie=new Trie();
+
+          for(int i : nums){
+            trie.insert(i);
+          }     
+
+          int max=0;
+          for(int i: nums){
+             max=Math.max(max,trie.getMax(i));
+          }
+
+          retur max;
+    }
+}
+
+// leetcode 1707. Maximum XOR With an Element From Array
+
+class Solution {
+    public class Node{
+        Node link[]=new Node[2];
+
+        boolean containsKey(int bit){
+            return link[bit]!=null;
+        }
+
+        void put(int bit,Node node){
+            link[bit]=node;
+        }
+
+        public Node get(int bit){
+            return link[bit];
+        }
+
+
+    }
+
+    public class Tries{
+        
+        Node root;
+        Tries(){
+            root=new Node();
+        }
+
+        void insert(int num){
+            Node node=root;
+
+            for(int i=31;i>=0;i--){
+                int bit=(num>>i) & 1;
+                if(!node.containsKey(bit)){
+                    node.put(bit,new Node());
+                }
+                node=node.get(bit);
+            }
+
+        }
+
+        public int getMax(int num){
+            Node node=root;
+            int max=0;
+            for(int i=31;i>=0;i--){
+                int bit=num>>i & 1;
+
+                if(node.containsKey(1-bit)){
+                    max=(num>>i | 1);
+                    node=node.get(bit-1);
+                }else{
+                    node=node.get(bit);
+                }
+            }
+
+            return max;
+        }
+    }
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        int max=0;
+
+        Tries trie=new Trie();
+
+        int ans[]=new int[queries.length];
+
+        for(int i : nums){
+            trie.insert(i);
+        }
+
+        for(int i=0;i<queries.length;i++){
+            int a[]=queries[i];
+
+            int x=a[0];
+            int maxVal=a[1];
+
+            
+        }
+    }
+}
+
+// maximum Xor queries of XOR 
+
+class Solution {
+    public class Node{
+        Node []arr=new Node[2];
+        
+        Node(){
+            
+        }
+
+        public Node get(int i){
+            return arr[i];
+        }
+
+        boolean containsKey(int i){
+            return arr[i]!=null;
+        }
+
+        void put(int i,Node node){
+            arr[i]=node;
+        }
+
+
+    }
+
+    public class Trie{
+
+        public static Node root;
+
+        Trie(){
+            root=new Node();
+        }
+
+        void insert(int num){
+            Node node=root;
+            for(int i=31;i>=0;i--){
+                int bit=num>>i & 1;
+
+                if(!node.containsKey(bit)){
+                    node.put(bit,new Node());
+                }
+                node=node.get(bit);
+            }
+        }
+
+        public int getMax(int num){
+            Node node=root;
+
+            int max=0;
+
+            for(int i=31;i>=0;i--){
+                int bit=(num>>i) & 1;
+                if(node.containsKey(1-bit)){
+                    max=max | (1<<i) ;
+                    node=node.get(1-bit);
+                }else{
+                    node=node.get(bit);
+                }
+            }
+
+
+            return max;
+        }
+    }
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        Arrays.sort(nums);
+
+        ArrayList<ArrayList<Integer>> qlist=new ArrayList<>();
+
+        for(int i =0;i<queries.length;i++){
+            ArrayList<Integer> temp=new ArrayList<>();
+            temp.add(queries[i][1]);
+            temp.add(queries[i][0]);
+            temp.add(i);
+
+            qlist.add(temp);
+        }
+
+        Collections.sort(qlist,(a,b)->{
+            return a.get(0)-b.get(0);
+        })
+
+
+        int m=queries.length;
+        int n=nums.length;
+
+        int idx=0;
+
+        Trie trie=new Trie();
+        int ans[]=new int[m];
+        for(int i=0;i<m;i++){
+            int maxVal=qlist.get(i).get(0);
+            int qidx=qlist.get(i).get(2);
+            int  x=qlist.get(i).get(1);
+
+            while(idx<n && nums[idx]<=maxVal){
+                trie.insert(nums[idx]);
+                idx++;
+            }
+            if(idx!=0) ans[qidx]=trie.getMax(x);
+            else ans[qidx]=-1;
+        }
+        return ans;
+    }
+}
+
+
+ // 211. Design Add and Search Words Data Structure
+
+class WordDictionary {
+
+    public class Node{
+        Node []link=new Node[26];
+        boolean flag=true;
+
+        booleean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        public Node get(char c){
+            return link[c-'a'];
+        }
+
+        public boolean isEnd(char c){
+            return flag;
+        }
+
+        public void endNode(){
+            flag=true;
+        }
+    }
+    
+     Node root;
+    public WordDictionary() {
+        root=new Node();
+    }
+    
+    public void addWord(String word) {
+        Node node=root;
+
+        for(int i=0;i<word.length();i++){
+            char c=word.charAt(i);
+
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+            node=node.get(c);
+        }
+
+        node.endNode();
+    }
+    
+    public boolean search(String word) {
+        Node node=root;
+         Node node=root;
+
+        for(int i=0;i<word.length();i++){
+            char c=word.charAt(i);
+
+            if(!node.containsKey(c)){
+                 return false;
+            }else{
+                node=node.get(c);                
+            }
+        }
+
+
+        return node.isEnd();
+    }
+}
+
+// leetcode 221
+class Solution {
+    public class Node{
+        Node []link=new Node[26];
+        String word;
+        boolean flag=false;
+
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        Node get(char c){
+            return link[c-'a'];
+        }
+        void endWord(){
+            flag=true;
+        }
+        public boolean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+    }
+    Node root;
+
+    public void insert(String s){
+        int n=s.length();
+        Node node=root;
+        for(int i=0;i<n;i++){
+            char c=s.charAt(i);
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+            node=node.get(c);
+        }
+
+        node.endWord();
+        node.word=s;
+    }
+    public void dfs(int cr,int cc,int er,int ec,int [][]dir, char[][] arr,List<String> ans,Node node){
+
+        
+         if(node.flag ){
+            ans.add(node.word);
+            node.flag=false;
+            return ;
+        }
+       
+        
+       
+
+        char c=arr[cr][cc];
+        arr[cr][cc]='$';
+
+        for(int d=0;d<4;d++){
+            int rr=cr+dir[d][0];
+            int ccc=cc+dir[d][1];
+
+            if(rr>=0 && ccc>=0 && rr<er && ccc<ec && arr[rr][ccc]!='$' &&  node.containsKey(c)){
+                // node=node.get(arr[rr][ccc]);
+                dfs(rr,ccc,er,ec, dir,arr, ans,node.get(c));
+            }
+        }
+        arr[cr][cc]=c;
+        
+        
+
+    }
+    public List<String> findWords(char[][] board, String[] words) {
+        root=new Node();    
+
+
+        for(String s: words){
+            insert(s);
+        }
+        List<String> ans=new ArrayList<>();
+        int r=board.length;
+        int c=board[0].length;
+        int dir[][]={{1,0},{-1,0},{0,1},{0,-1}};
+
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                dfs(i,j,r,c,dir,board,ans,root.get(board[i][j]));
+            }
+        }
+     
+        return ans;
+    }
+}
+
+// leetcode Replace Words
+
+class Solution {
+    public class Node{
+        Node[] link=new Node[26];
+        boolean flag=false;
+
+        String word;
+        boolean flag=false;
+
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        Node get(char c){
+            return link[c-'a'];
+        }
+        void endWord(){
+            flag=true;
+        }
+        public boolean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+
+    }
+    Node root;
+    public void insert(String s){
+        int n=s.length();
+        Node node=root;
+        for(int i=0;i<n;i++){
+            char c=s.charAt(i);
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+            node=node.get(c);
+        }
+
+        node.endWord();
+        node.word=s;
+    }
+    public String search(String s){
+        Node node=root;
+
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+
+            if(node.flag){
+                return node.word;
+            }
+
+            if(!node.containsKey(c)){
+                return s;
+            }else{
+                node=node.get(c);
+            }
+        }
+
+        if(node.flag) return node.word;
+        return s;
+    }
+    public String replaceWords(List<String> dictionary, String sentence) {
+        
+        root=new Node();
+        for(String s: dictionary){
+            insert(s);
+        }
+
+        String []arr=sentence.split(" ");
+        for(int i=0;i<arr.length;i++){
+            String sw=search(arr[i]);
+            arr[i]=sw;
+        }
+
+        return arr.toString();
+    }
+}
