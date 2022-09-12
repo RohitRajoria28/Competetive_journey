@@ -10,6 +10,7 @@ public class DriverforEqualsAndHashCode {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 		Point[] points = new Point[10];
 		points[0] = new Point(0, 0);
 		points[1] = new Point(1, 5);
@@ -46,7 +47,7 @@ public class DriverforEqualsAndHashCode {
 		
 		System.out.println(map);
 		
-		String
+		 
 	}
 
 }

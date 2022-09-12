@@ -829,3 +829,271 @@ class Solution {
         return arr.toString();
     }
 }
+
+// leetcode 677 Map Sum Count
+
+class MapSum {
+    public class Node{
+        Node[] link=new Node[26];
+        int count=0;
+        boolean flag=false;
+        int endCount=0;
+
+        boolean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        Node get(char c){
+            return link[c-'a'];
+        }
+        Integer getCount( ){
+            return count;
+        }
+        
+
+        boolean isEnd(){
+            return  flag;
+        }
+        Integer EndCount(){
+            return count;
+        }
+        void endString(){
+            flag=true;
+        }
+
+    }
+    public int[] containsString(String key){
+        int arr[]=new int[2];
+//         arr[0]=true / false ;
+//         arr[1]=countValue;
+        
+        Node node=root;
+         
+        for(int i =0;i<key.length();i++){
+            char c=key.charAt(i);
+
+            if(!node.containsKey(c)){
+               return  arr;
+            }else{
+                node=node.get(c);
+            } 
+        }
+        arr[0]=(node.isEnd()?1:0);
+        arr[1]=(node.isEnd()?node.endCount:0);
+        return  arr;
+    }
+Node root;
+    public MapSum() {
+        root=new Node();
+    }
+    
+    public void insert(String key, int val) {
+        Node node=root;
+        
+       int arr[]= containsString(key);
+        int prevVal=0;
+        if(arr[0]!=0) prevVal=arr[1];
+        
+
+        for(int i =0;i<key.length();i++){
+            char c=key.charAt(i);
+
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+             
+            node=node.get(c);
+            node.count-=prevVal;
+            node.count+=val;
+            System.out.print(prevVal+" ");
+        }
+        System.out.println();
+        
+        node.endString();
+        node.endCount=val;
+    }
+    
+    public int sum(String prefix) {
+        
+        
+        Node node=root;
+        for(int i=0;i<prefix.length();i++){
+            char c=prefix.charAt(i);
+            if(node.containsKey(c)){
+                node=node.get(c);
+            }else{
+                return 0;
+            }
+        }
+
+        return node.getCount();
+    }
+}
+ 
+
+ // leetcode 720. Longest Word in Dictionary
+
+
+class Solution {
+    public class Node{
+        Node[] link=new Node[26];
+         
+        boolean flag=false;
+        String str;
+        
+
+        boolean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        Node get(char c){
+            return link[c-'a'];
+        }
+         
+        
+
+        boolean isEnd(){
+            return  flag;
+        }
+         
+        void endString(){
+            flag=true;
+        }
+
+    }
+Node root;
+    public void insert(String key, int val) {
+        Node node=root;
+        
+        for(int i =0;i<key.length();i++){
+            char c=key.charAt(i);
+
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+             
+            node=node.get(c);
+        }
+        
+        node.endString();
+        node.str=key;
+        
+    }
+    public boolean search(String s){
+        Node node=root;
+        for(int i=key.length()-2;i>=0;i--){
+            
+            char c=key.charAt(i);
+
+            if(isEnding())
+             
+            node=node.get(c);
+        }
+
+    }
+    String ans="";
+    public void dfs(){
+        for(Node child: root){
+            if(child!=null && child.str!=null){
+                if(child.str.length()>ans.length()){
+                    ans=child.str;
+                }
+                dfs(child);
+            }
+        }
+    }
+    public String longestWord(String[] words) {
+        Node node=root;
+
+        for(String s: words){
+            insert(s);
+        }
+
+        dfs();
+
+        return ans;
+    }
+}
+
+//  leetcode 1032 Stream of character 
+
+
+class StreamChecker {
+    public class Node{
+        Node[] link=new Node[26];
+         
+        boolean flag=false;
+        
+        
+
+        boolean containsKey(char c){
+            return link[c-'a']!=null;
+        }
+        void put(char c,Node node){
+            link[c-'a']=node;
+        }
+
+        Node get(char c){
+            return link[c-'a'];
+        }
+
+        boolean isEnd(){
+            return  flag;
+        }
+        void endWord(){
+            flag=true;
+        }
+    }
+    
+    
+  
+
+    public void insert(String s){
+        Node node=root;
+
+        for(int i =s.length()-1;i>=0;i--){
+            char c=s.charAt(i);
+
+            if(!node.containsKey(c)){
+                node.put(c,new Node());
+            }
+            node=node.get(c);
+        }
+
+        node.endWord();
+    }
+    Node root;
+    StringBuilder str;
+    public StreamChecker(String[] words) {
+        root=new Node();
+        str=new StringBuilder();
+        
+        for(String s:words){
+            insert(s);
+        }
+    }
+      
+    public boolean query(char letter) {
+        str.append(letter);
+
+        boolean flag=false;
+        Node node=root;
+
+        for(int i=str.length()-1;i>=0;i--){
+            char c=str.charAt(i);
+
+            if(!node.containsKey(c)) return false;
+            node=node.get(c);
+            if(node.isEnd()) return true;
+        }
+        return false;
+
+    }
+}
+ 
