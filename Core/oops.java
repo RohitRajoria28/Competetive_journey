@@ -10,10 +10,71 @@ public class oops {
         } catch (Exception e) {
             System.err.println("Error");
         }
+
+
         Scanner scn=new Scanner(System.in);
-        int n=scn.nextInt();
-       System.out.println(n+":  ROHIT U DID FINE BRO ");
+        
+        RedShapeDecorator red=new ShapeDecorator(new circle());
+         
     }
+
+    public interface shape{
+        public void draw(){};
+    }
+
+    public class circle implements shape{
+        public void draw(){
+            System.out.print("I am circle");
+        } 
+    }
+
+    public class rectangle implements shape{
+        public void draw(){
+            System.out.print("I am rectangle");
+        } 
+    }
+
+    public class ShapeDecorator implements shape{
+        private shape decorator;
+
+       void  ShapeDecorator(shape decorator){
+            this.decorator=decorator;
+        }
+
+        void draw(){
+            decorator.draw();
+        }
+    }
+    public class BlackShapeDecorator extends ShapeDecorator{
+
+        BlackShapeDecorator(shape decorator){
+            super(decorator);
+        }
+
+        public void draw(){
+            decorator.draw();
+            ShapeDecoratorDraw(decorator);
+        }
+        void ShapeDecoratorDraw(shape decorator){
+            System.out.print("BORDER LINE : Black");
+        }
+    }
+
+    public class RedShapeDecorator extends ShapeDecorator{
+
+        RedShapeDecorator(shape decorator){
+            super(decorator);
+        }
+
+        public void draw(){
+            decorator.draw();
+            ShapeDecoratorDraw(decorator);
+        }
+        void ShapeDecoratorDraw(shape decorator){
+            System.out.print("BORDER LINE : RED");
+        }
+    }
+
   
 }
 

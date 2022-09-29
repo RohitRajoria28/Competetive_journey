@@ -143,6 +143,7 @@ class Solution {
     ListNode nhead;
     int len;
     public Solution(ListNode head) {
+         
         rand=new Random();
         nhead=head;
         ListNode node=head;

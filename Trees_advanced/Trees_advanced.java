@@ -433,3 +433,273 @@ class Solution {
         return helper(arr,0,a.length()-1,1);
     }
 }
+
+
+// 1161. Maximum Level Sum of a Binary Tree
+
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+        if(root==null) return 0;
+
+        LinkedList<TreeNode> list=new LinkedList<>();
+
+        list.add(root);
+
+        int maxSum=Integer.MIN_VALUE;
+        while(list.size()>0){
+            int size=list.size();
+            int sum=0;
+            while(size-->0){
+                TreeNode rnode=list.removeFirst();
+                sum+=rnode;
+
+                if(rnode.left!=null) list.add(rnode.left);
+                if(rnode.right!=null) list.add(rnode.right);
+            }
+            maxSum=Math.max(maxSum,sum);
+        }
+
+        return maxSum;
+    }
+}
+
+//leetcode  1315. Sum of Nodes with Even-Valued Grandparent
+
+class Solution {
+    int sum=0;
+    
+    public void helper(TreeNode node){
+        if(node==null) return ;
+        
+        if(node.val%2==0){
+           if(node.left!=null){
+                if(node.left.left!=null){
+                    sum+=node.left.left.val;
+                 }
+                if(node.left.right!=null){
+                    sum+=node.left.right.val;    
+                }
+           }
+            if(node.right!=null){
+                if(node.right.right!=null){
+                    sum+=node.right.right.val;
+                 }
+                if(node.right.left!=null){
+                    sum+=node.right.left.val;
+                }
+                
+            }
+        }
+        
+        helper(node.left);
+        helper(node.right);
+    }
+    public int sumEvenGrandparent(TreeNode root) {
+        helper(root);
+        
+        return sum;
+    }
+}
+
+// approach 2
+
+class Solution {
+    int sum=0;
+    public void helper(TreeNode node,TreeNode parent,TreeNode gp){
+        if(node==null) return ;
+
+        if(gp!=null && gp.val%2==0){
+            sum+=node.val;
+        }
+
+        helper(node.left,node,parent);
+        helper(node.right,node,parent);
+    }
+    public int sumEvenGrandparent(TreeNode root) {
+         
+         helper(root,null,null);
+         return sum;
+    }
+}
+
+// 
+
+class GfG {
+
+    public class pair {
+        int data=0;
+        boolean flag=false;
+        pair(){};
+    }
+    int ans=0;
+    public pair helper(Node node,int a,int b ){
+        if(node==null) return new pair();
+
+        pair left=helper(node.left,a,b );
+        pair right=helper(node.right,a,b );
+
+        pair mpair=new pair();
+
+        if(node.data==a || node.data==b){
+            mpair.flag=true;
+            mpair.data=1;
+        }
+
+        if(left.flag==true  && right.flag==true ){
+            ans=left.data+right.data;
+           
+        }else if(left.flag==true  && mpair.flag==true){
+             ans=left.data+mpair.data-1;
+            //  System.out.print(ans+" ");
+        }else if(mpair.flag==true  && right.flag==true ){
+             ans=mpair.data+right.data-1;
+            //  System.out.print(ans+" ");
+        }else{
+            if(left.flag){
+                mpair.flag=true;
+               mpair.data=left.data+1;
+            }else if(right.flag){
+                mpair.flag=true;
+                mpair.data=right.data+1;
+            }
+        }
+
+        // System.out.print(ans+" ");
+        return mpair;
+    }
+    
+    int findDist(Node root, int a, int b) {
+       
+       pair p=helper(root,a,b );
+
+       return ans;
+    }
+}
+
+
+// 1457. Pseudo-Palindromic Paths in a Binary Tree
+
+
+class Solution {
+    public boolean isPalindrome(int arr[]){
+        boolean flag=true;
+
+        for(int i =0;i<arr.length;i++){
+            if(arr[i]%!=0){
+                
+                if(!flag) return false;
+                flag=false;
+
+            }
+        }
+
+        return true;
+    }
+    public int pseudoPalindromicPaths (TreeNode node) {
+        if(node==null) return 0;
+
+        arr[node.val]++;
+        if(node.left ==null && node.right==null){
+            boolean res=isPalindrome(arr);
+            return res==true?1:0;
+        }
+        int count=0;
+        count+=pseudoPalindromicPaths(node.left);
+        count+=pseudoPalindromicPaths(node.right);
+
+
+        arr[node.val]--;
+
+        return count;
+        
+    }
+}
+
+// odd even Tree leetcode
+
+
+class Solution {
+    public boolean isEvenOddTree(TreeNode root) {
+
+        LinkedList<TreeNode> list=new LinkedList<>();
+
+        list.add(root);
+
+        int level=0;
+        
+        while(list.size()!=0){
+            int size=list.size();
+            int eval=0;
+            int oval=(int)1e9;
+
+            while(size-->0){
+                TreeNode rnode =list.remove();
+
+                if(level%2==0){
+                    if(rnode.val%2==0) return false;
+
+                    if(eval>rnode.val){
+                        return false;
+                    }
+                    mval=rnode.val;
+                }else{
+                    if(rnode.val%2!=0) return false;
+
+                    if(oval<rnode.val){
+                        return false;
+                    }
+                    oval=rnode.val;
+                }
+
+
+                if(rnode.left!=null) list.add(rnode.left);
+                if(rnode.right!=null) list.add(rnode.right);
+            }
+
+
+        }
+
+        return true;
+        
+    }
+}
+
+//leetcode  652. Find Duplicate Subtrees
+
+class Solution {
+    public void helper(TreeNode node,HashSet<TreeNode> set,List<TreeNode> list){
+        if(node==null) return ;
+
+        helper(node.left,set,list);
+        helper(node.right,set,list);
+
+        set.add(node);
+
+        if(set.contains(node)){
+            list.add(node);
+        }else{
+            set.add(node);
+        }
+
+
+        return node;
+    }
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        HashSet<TreeNode> set=new HashSet<>();
+        List<TreeNode> list=new ArrayList<>();
+
+        helper(root,set,list);
+
+
+        return list;
+    }
+}
+
+// 513. Find Bottom Left Tree Value
+
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        
+        
+    }
+}

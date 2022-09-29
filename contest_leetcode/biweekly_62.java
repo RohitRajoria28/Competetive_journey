@@ -181,4 +181,56 @@ class Solution {
 
 // q4 
 
- 
+class Solution {
+    public int waysToPartition(int[] nums, int k) {
+        int n=nums.length;
+        long pref[]=new long[n];
+        long suff[]=new long[n];
+       
+        for(int i=0;i<n;i++){
+            if(i==0){
+              pref[i]=nums[i];  
+                continue;
+            } 
+            pref[i]=nums[i]+pref[i-1];
+
+        }
+        for(int i=n-1;i>=0;i--){
+            if(i==n-1){
+              suff[i]=nums[i];  
+                continue;
+            } 
+            suff[i]=nums[i]+suff[i+1];
+        }
+
+        HashMap<Long,Long> left=new HashMap<>();
+        HashMap<Long,Long> right=new HashMap<>();
+
+        for(int i=0;i<n-1;i++){
+            long diff=pref[i]-suff[i+1];
+            right.put(diff,right.getOrDefault(diff,0L)+1);
+        }
+        long maxans=right.getOrDefault(0L,0L);
+        for(int i=0;i<n;i++){
+            long d=k-nums[i];
+            long ans=0;
+            if(left.containsKey(d)) ans+=left.get(d);
+            if(right.containsKey(-d)) ans+=right.get(-d);
+
+            maxans=Math.max(maxans,ans);
+
+            if(i<n-1){
+                long count=pref[i]-suff[i+1];
+                long rc=right.get(count);
+                left.put(count,left.getOrDefault(count,0L)+1);
+                if(rc==1){
+                    right.remove(count);
+                }else{
+                    right.put(count,right.get(count)-1);
+                }
+            }
+        }
+        return (int)maxans;
+
+    }
+} 
