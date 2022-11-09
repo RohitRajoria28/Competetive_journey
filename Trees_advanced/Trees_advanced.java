@@ -699,7 +699,64 @@ class Solution {
 
 class Solution {
     public int findBottomLeftValue(TreeNode root) {
+        LinkedList<TreeNode> list=new TreeNode();
+
+        list.add(root);
+        int ans=-1;
+
+        while(list.size()>0){
+            int size=list.size();
+
+            List<Integer> smallans=new ArrayList<>();
+
+            while(size-->0){
+                TreeNode rnode=list.remove();
+
+                smallans.add(rnode.val);
+
+                if(rnode.left!=null) list.add(rnode.left);
+                if(rnode.right!=null) list.add(rnode.right);
+            }
+            ans=list.get(0);
+        }
+
+
+        return ans;
         
-        
+    }
+}
+
+// leetcode 654  
+
+ 
+class Solution {
+    public int findMax(int nums[],int si,int ei){
+        int midx=-2;
+        int max=-1;
+        for(int i=si;i<=ei;i++){
+            if(max<nums[i]) midx=i; max=nums[i];
+        }
+
+        return midx;
+    }
+    public TreeNode construct(int nums[],int si,int ei){
+        if(si>ei) return null;
+        if(si==ei) return new TreeNode(nums[si]);
+
+
+        int midx=findMax(nums,si,ei);
+
+        TreeNode mynode=new TreeNode(nums[midx]);
+
+        mynode.left=construct(nums,si,mid-1);
+        mynode.right=construct(nums,mid-1,ei);
+
+        return mynode;
+    }
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        int n=nums.length;
+
+        TreeNode ans=construct(nums,0,n-1);
+        return ans;
     }
 }

@@ -1995,3 +1995,33 @@ class Solution {
 
     }
 }
+
+
+// 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+
+
+class Solution {
+    public int longestSubarray(int[] nums, int lim) {
+        TreeSet<Integer> set=new TreeSet<>();
+        int n=nums.length;
+        int i=0;
+        int j=0;
+
+        while(j<n){
+            int val=nums[j];
+
+            set.add(val);
+
+            while(i<=j && set.last()-set.first() >lim) {
+                int rem=nums[i];
+                set.remove(rem);
+                i++;
+            }
+
+            res=Math.max(res,(j-i+1));
+            j++;
+        }
+
+        return res;
+    }
+}

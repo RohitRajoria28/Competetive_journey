@@ -899,3 +899,43 @@ static class HitCounter {
 
   
 }
+
+// 907. Sum of Subarray Minimums
+
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        int n=arr.length;
+        int left[]=new int[n];
+        int right[]=new int[n];
+        Stack<Integer> st=new Stack<>();
+
+        for(int i=0;i<n;i++){
+            while(!st.empty() && arr[st.peek()]>arr[i]){
+                st.pop();
+            }
+            left[i]=(i-st.peek());
+            st.push(i);
+        }
+
+        while(!st.empty()){
+            st.pop();
+        }
+
+        for(int i=n-1;i<0;i--){
+            while(!st.empty() && arr[st.peek()]>arr[i]){
+                st.pop();
+            }
+            right[i]=(st.peek()-i);
+            st.push(i);
+        }
+
+        int ans=0;
+        int mod=(int)1e9+7;
+        for(int i=0;i<n;i++){
+            ans+=(arr[i]*left[i]*right[i])%mod;
+        }
+
+        return ans;
+
+    }
+}

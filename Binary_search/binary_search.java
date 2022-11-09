@@ -718,3 +718,227 @@ class Solution {
     }
 }
  
+
+ // 81. Search in Rotated Sorted Array II
+
+class Solution {
+    public boolean search(int[] nums, int target) {
+        
+        while(l<=r){
+            int mid=(l+r)/2;
+
+            if(arr[mid]==tar) return true;
+// left is sorted 
+            if(arr[mid]> arr[l] || arr[mid]> arr[r]){
+                if(arr[mid]>=tar && arr[l]<=tar){
+                    r=mid-1;
+                }else{
+                    l=mid+1;
+                }
+
+
+//right is sorted
+            }else if(arr[mid]<arr[r] || arr[mid]<arr[l]){
+
+                if(arr[mid]<=tar && arr[r]>=tar){
+                    l=mid+1;
+                }else {
+                    r=mid-1;
+                }
+            }else {
+                r--;
+            }
+        }
+        return false;
+    }
+}
+
+// leetcode 74
+
+class Solution {
+    public boolean binarySearch(int arr[],int tar){
+        int n=arr.length;
+        int l=0;
+        int r=n-1;
+
+        while(l<r){
+            int mid=(l+r)/2;
+
+            if(arr[mid]==tar) return true;
+            if(arr[mid]<tar){
+                l=mid+1;
+            }else if(arr[mid]>tar) {
+                r=mid-1;
+            }
+        }
+
+        return false;
+
+    }
+    public boolean searchMatrix(int[][] arr, int target) {
+        int r=arr.length;
+        int c=arr[0].length;
+        if(tar>mat[r-1][c-1]){
+            return false;
+        }
+
+        for(int a[]: arr){
+            if(a[0]<=tar && tar<=a[c-1]){
+                return binarySearch(a,tar);
+            }else{
+                continue;
+            }
+        }
+
+        return false;
+    }
+}
+// optimised approach
+
+
+class Solution {
+    public boolean searchMatrix(int[][] arr, int tar) {
+        int r=arr.length;
+        int c=arr[0].length;
+
+        int i=0;
+        int j=c-1;
+
+        while(i<n && j>=0){
+            if(arr[i][j]==tar) return true;
+
+            if(arr[i][j]<tar){
+                i++;
+            }else if(arr[i][j]>tar){
+                j--;
+            }
+        }
+
+        return false;
+    }
+}
+
+
+// //leetcode 1631. Path With Minimum Effort
+
+
+class Solution {
+    int omin=10000000;
+    public int helper(int [][]arr,int diff,int r,int c,int [][]dir){
+
+        int n=arr.length;
+        int m=arr[0].length;
+        if(r==n-1 && c==m-1){
+            return diff;
+        }
+        int cmin=1000000;
+        for(int d=0;d<2;d++){
+            int rr=r+dir[d][0];
+            int cc=c+dir[d][1];
+
+            if(rr>=0 && rr<n && c>=0 && cc<m){
+                cmin=Math.min(cmin,Math.abs(arr[r][c]-arr[rr][cc]));
+                omin=Math.min(helper(arr,cmin,rr,cc,dir));
+            }
+        }
+
+        return omin;
+    }
+    public int minimumEffortPath(int[][] heights) {
+        int dir[][]={{1,0},{0,1}};
+
+        int min=-1;
+
+        return helper(arr,arr[0][0],0,0,dir);
+    }
+}
+
+// binary search solution
+
+class Solution {
+    
+    public int helper(int [][]arr,boolean [][]vis,int maxdiff,int r,int c,int lh, int [][]dir){
+
+        int n=arr.length;
+        int m=arr[0].length;
+        if(n==1 && m==1) return 0;
+
+        if(vis[r][c] || r<0 || c<0 || r>=n || c>=m || Math.abs(arr[r][c]-lh)>maxdiff ) return false;
+
+        if(r==n-1 && c==m-1){
+            return true;
+        }
+        boolean ans=false;
+        vis[r][c]=true;
+        for(int d=0;d<4;d++){
+            int rr=r+dir[d][0];
+            int cc=c+dir[d][1];
+
+            ans = ans || helper(arr,vis,maxdiff,rr,cc , arr[r][c], dir);
+             
+        }
+ 
+        return ans;
+    }
+    public int minimumEffortPath(int[][] arr) {
+          int n=arr.length;
+         int m=arr[0].length;
+
+         int l=0;
+         int r=(int)1e6;
+
+         int dir[][]={{1,0},{0,1},{0,-1},{-1,0}};
+
+        
+
+
+         while(l<=r){
+            int mid=(l+r-1)>>1;
+            boolean vis[][]=new boolean[n][m];
+            if(helper(arr,vis,mid,0,0,arr[0][0],dir)){
+                r=mid-1;
+            }else{
+                l=mid+1;
+            }
+         }
+        
+        
+        return mid;
+    }
+}
+
+// 1894. Find the Student that Will Replace the Chalk
+
+
+class Solution {
+    public int chalkReplacer(int[] arr, int k) {
+
+        int n=arr.length;
+
+        int pre[]=new int[];
+        pre[0]=arr[0];
+        for(int i=1;i<n;i++){
+            pre[i]=arr[i]+prev[i-1];
+        }
+
+        if(pre[n-1]<=k) k=k%pre[n-1];
+        if(k==0) return 0;
+
+        int l=0;
+        int r=n-1;
+
+        while(l<=r){
+            int mid=(l+r)/2;
+
+            if(k-prev[mid]==0) return mid+1;
+            if(k-prev[mid]<0){
+                r=mid-1;
+            }else{
+                l=mid-1;
+            }
+        }
+        
+
+        return l;
+    }
+}

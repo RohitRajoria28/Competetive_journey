@@ -260,3 +260,235 @@ class Solution {
  
     }
 }
+
+
+// find cycle node
+ 
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        
+        if(head==null || head.next==null) return head;
+
+        ListNode slow=head;
+        ListNode fast=head;
+
+        while(slow!=fast){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+
+        if(slow==fast) slow=head;
+        boolean isloop=false;
+        while(slow!=fast){
+            fast=fast.next;
+            slow=slow.next;
+            isloop=true;
+        }
+        if(!isloop){
+            fast=fast.next;
+            while(fast.next!=null && fast!=slow){
+                fast=fast.next;
+            }
+        }
+        if(fast.next==null) return null;
+        return slow;
+        
+    }
+}
+
+// /
+ */
+class Solution {
+    public int length(ListNode head){
+        ListNode node=head;
+        int count=0;
+        while(node!=null){
+            node=node.next;
+            count++;
+        }
+        return count;
+    }
+    ListNode th=null;
+    ListNode tt=null;
+    public void addFirst(ListNode node){
+        if(th==null && tt==null){
+            th=node;
+            tt=node;
+        }else{
+            node.next=th;
+            th=node;
+        }
+    }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head==null ) return null;
+        int l=length(head);
+        int len=l;
+        ListNode curr=head;
+        ListNode ph=null;
+        ListNode pt=null;
+        while(len>=k && curr!=null){
+            int temp=0;
+            while(temp<=k && len>=k && curr!=null){
+                addfirst(curr);
+                curr=curr.next;
+                temp++; 
+            }
+            if(ph==null ){
+                ph=th;
+                pt=tt;
+            }else{
+                pt.next=th;
+                pt=tt;
+            }
+            len-=k;
+            tt=null;
+            th=null;
+        }
+        if(curr!=null){
+            pt.next=curr;
+        }
+
+        return ph;
+    }
+}
+
+//2074. Reverse Nodes in Even Length Groups
+
+class Solution {
+    public int length(ListNode node){
+        int len=0;
+
+        ListNode curr=node;
+
+        while(curr!=null){
+            len++;
+            curr=curr.next;
+        }
+        return len;
+    }
+    public void addFirst(ListNode node){
+        if(th==null && tt==null){
+            th=node;
+            tt=node;
+        }else {
+            node.next=th;
+            th=node;
+        }
+    }
+    ListNode th;
+    ListNode tt;
+    public ListNode reverseEvenLengthGroups(ListNode head) {
+        int len=length(head);
+
+        int k=1;
+        ListNode ph=null;
+        ListNode pt=null;
+
+
+        while(curr!=null){
+            if(k%2==0  || (k>len && len%2==0)){
+
+                if(k>len && len%2==0){
+                    k=len;
+                }
+
+                int temp=k;
+                while(k-->0 && curr!=null){
+                    ListNode frd=curr.next;
+                    curr.next=null;
+                    addFirst(curr);
+                    curr=frd;
+                }
+
+                if(ph==null){
+                    ph=th;
+                    pt=tt;
+                }else{
+                    pt.next=th;
+                    pt=tt;
+                }
+
+            }else{
+                ListNode frd=curr.next;
+                if(ph==null){
+                    ph=curr;
+                    while(k-->0 && curr.next!=null){
+                        curr=curr.next;
+                    }
+
+                    pt=curr;
+                }else{
+                   pt.next=curr;
+                    while(k-->0 && curr.next!=null){
+                        curr=curr.next;
+                    }
+                     pt=curr;
+                }
+            }
+            len-=k;
+            k++;
+        }
+
+        return ph;
+    }
+}
+
+
+public  static int helper(int arr[])
+{
+     
+    int prev[][] = new int[n][2];
+ 
+     
+    for (int i = 0; i < n; i++)
+        prev[i][0] = prev[i][1] = 1;
+  
+    int ans = 1; 
+    
+   
+    for (int i = 1; i < n; i++)
+    {  
+
+        boolean flag=false;
+        
+        for (int j = 0; j < i; j++)
+        {
+             
+            if (arr[j] < arr[i] &&
+                prev[i][0] < prev[j][1] + 1)
+                prev[i][0] = prev[j][1] + 1;
+ 
+             
+            if( arr[j] > arr[i] &&
+              prev[i][1] < prev[j][0] + 1)
+                prev[i][1] = prev[j][0] + 1;
+        }
+
+
+        if(flag){
+            while(!flag){
+                prev[i][0] = prev[j][1] + 1;
+                prev[i][1] = prev[j][0] + 1;
+
+            }
+        }
+
+ 
+        
+        if (ans < Math.max(prev[i][0], prev[i][1]))
+            ans = Math.max(prev[i][0], prev[i][1]);
+    }
+ 
+    return ans+arr.length;
+}
+
+0 1 2 3 5 8
+
+public class fib(int n){
+    if(n==1) return 0;
+
+
+    int ans=1+n;
+
+    retuan ans;
+}
