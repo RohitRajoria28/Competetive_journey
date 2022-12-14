@@ -2025,3 +2025,18 @@ class Solution {
         return res;
     }
 }
+
+// 
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        HashMap<Character,List<Character>> map=new HashMap<>();
+        char c='a'-1;
+        for(int i=2;i<=9;i++){
+            map.put(i,c+1);
+            map.put(i,c+2);
+            map.put(i,c+2);
+
+        }       
+    }
+}

@@ -321,75 +321,46 @@ public class Solution extends VersionControl {
 }
 
 
-// leetcode 275. H-Index II
-class Solution {
-    public int hIndex(int[] c) {
-        int l=0,h=c.length-1,k=c.length;
-        while(l<=h)
-        {
-            int m=(l+h)/2;
-            if(c[m]==(k-m))
-                return k-m;
-            else if(c[m]>(k-m))
-                h=m-1;
-            else
-                l=m+1;
-        }
-        return k-l;
-    }
-}
+ 
 
 // leetcode 1482. Minimum Number of Days to Make m Bouquets
 class Solution {
-    public boolean helper(int [] arr,long mid,int m,int k){
-        int total=0;
-        int count=0;
-        
-        for(int i =0;i<arr.length;i++){
-            if(arr[i]<=mid){
-                total++;
-            }else{
-                if(total>=k){
-                    count++;
-                }
-                total=0;
-            }
-            
-            if(total>=k){
-                count++;
-                total=0;
-            }
-        }
-        
-        if(total>=k) count++;
-        
-        
-        return (count>=m);
-    }
-    public int minDays(int[] bd, int m, int k) {
-        if(m*k>bd.length) return -1;
-        
-        long l=0;
-        long r=-10;
-        for(int i:bd){
-            r=Math.max(r,i);
-        }
-         
+    public int minDays(int[] arr, int m, int k) {
+        int l=0;
+        int r=(int)1e9;
+        if(arr.length<m*k) return -1;
+
+
         while(l<r){
-           long mid=(long)(l+r)/2;
-            if(helper(bd,mid,m,k)){
-                r=mid;
-            }else{
-                l=mid+1;
+            int mid=(l+r)/2;
+            int flower=0;
+            int days=0;
+            for(int i=0;i<arr.length;i++){
+                if(arr[i]>=mid){
+                    flower++;
+                }else{
+                    if(flower>=k){
+                        days++;
+                    }
+                    flower=0;
+                }
+                if(flower==k){
+                  days++;
+                  flower=0;  
+                } 
             }
+
+            if(days<m){
+                l=mid+1
+            }else{
+                r=mid;
+            }
+
         }
-        
-        
-        return (int)l;
-        
+
+        return l;
     }
 }
-
 
 // leetcode 410. Split Array Largest Sum
 class Solution {

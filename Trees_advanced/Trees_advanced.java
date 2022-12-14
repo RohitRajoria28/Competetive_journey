@@ -760,3 +760,30 @@ class Solution {
         return ans;
     }
 }
+
+// INORDER without recursion 
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> st=new Stack<>();
+
+        List<Integer> ans=new ArrayList<>();
+
+        while(true){
+            if(node!=null){
+                st.push(node);
+                node=node.left;
+            }else{
+                if(st.empty()) break;
+                else{
+                    TreeNode rnode=st.pop();
+                    ans.add(rnode.val);
+                    node=node.right;
+                }
+            }
+
+        }
+        return ans;
+    }
+}
+

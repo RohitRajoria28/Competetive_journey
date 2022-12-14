@@ -260,7 +260,56 @@ class Solution {
 
     }
 }
+// 84. Largest Rectangle in Histogram
+    class Solution {
+    public int largestRectangleArea(int[] arr) {
+        Stack<Integer> st=new Stack<>();
+         
+        int n=arr.length;
+         
+        int rsmall[]=new int[n];
+         
+        int lsmall[]=new int[n];
+       
+         for(int i=0;i<n;i++){
+             int val=arr[i];
+             while(!st.empty() && arr[st.peek()]>=val){
+                st.pop();
+             }
+             if(st.empty()) lsmall[i]=0;
+             else lsmall[i]=st.peek()+1;
+             st.push(i);
+        }
+        
+        // right smaller 
+     
+         while(!st.empty()) st.pop();
+           
+            for(int i=n-1;i>=0;i--){
+                int val=arr[i];
+                while(!st.empty() && arr[st.peek()]>=val){
+                    st.pop();
+                }
+                if(st.empty()) rsmall[i]=n-1;
+                else rsmall[i]=st.peek()-1;
 
+                System.out.print(rsmall[i]+" ");
+                st.push(i);
+            }
+         
+       
+
+
+         
+        int max=-1;
+        for(int i=0;i<n;i++){
+             
+            max=Math.max(max,(rsmall[i]-lsmall[i]+1) * arr[i]);
+        }
+        return max;
+
+    }
+}
 // 
 class Solution {
     public int largestRectangleArea(int[] heights) {
@@ -551,7 +600,24 @@ class Solution {
         
     }
 }
-
+// 946. Validate Stack Sequences
+class Solution {
+    public boolean validateStackSequences(int[] pus , int[] pop ) {
+        Stack<Integer> st=new Stack<>();
+        int n=pus.length;
+        int idx=0;
+        for(int i=0;i<n;i++){
+            st.push(pus[i]);
+            while(!st.empty() && st.peek()==pop[idx]){
+                st.pop();
+                idx++;
+            }
+            
+        }
+        
+        return st.empty();
+    }
+}
 
  //lintcode  849 · Basic Calculator III
 
@@ -937,5 +1003,140 @@ class Solution {
 
         return ans;
 
+    }
+}
+
+// 
+
+class Solution {
+    public int[] canSeePersonsCount(int[] arr) {
+
+        int n=arr.length;
+        int ans[]=new int[n];
+
+        Stack<Integer> st=new Stack<>();
+
+        for(int i=n-1;i>=0;i--){
+            int val=arr[i];
+            if(!st.empty() && arr[st.peek()]<val){
+                int count=0;
+                while(!st.empty() && arr[st.peek()]<val){
+                    st.pop();
+                    count++;
+                }
+                
+                ans[i]=st.empty()==true?count:count+1;
+            }else if(!st.empty() && arr[st.peek()]>val){
+                ans[i]=1;
+            }
+            st.push(i);
+        }
+
+        return ans;
+    }
+}
+
+// 
+
+class Solution {
+    public int mctFromLeafValues(int[] arr) {
+         Stack<Integer> st=new Stack<>();
+         st.push((int)1e9);
+        int res=0;
+         for(int a: arr){
+            while(st.peek()<=a){
+                int mid=st.pop();
+                res+=mid*Math.min(st.peek(),a);
+            }
+            st.push(a);
+         }
+         while(st.size()>2){
+            res+=(st.pop()*st.peek());
+         }
+         return res;
+    }
+}
+
+//leetcode - 1793. Maximum Score of a Good Subarray
+
+class Solution {
+    public int maximumScore(int[] arr, int k) {
+        int i=k;
+        int j=k;
+        int n=arr.length;
+        int res=arr[j];
+        int min=arr[k];
+        while(i>=0 && j<n-1){
+            if(i==0){
+                j++;
+            }else if(j==n-1){
+                i--;
+            }
+            else if(arr[i-1]<arr[j+1]){
+                j++;
+            }else{
+                i--;
+            }
+            min=Math.min(min,Math.min(arr[i],arr[j]));
+            res=(min)*(j-i+1);
+        }
+
+        return res;
+    }
+}
+
+// 1996. The Number of Weak Characters in the Game
+
+class Solution {
+    public int numberOfWeakCharacters(int[][] arr) {
+        Collections.sort(arr,(a,b)->{
+            return a[0]-b[0];
+        })
+
+        int n=arr.length;
+        Stack<Integer> st=new Stack<>();
+        st.push((int)1e5+1);
+        int count=0;
+        for(int i=0;i<n;i++){
+            while(st.peek()<arr[i]){
+                count++;
+                st.pop();
+            }
+            st.push(arr[i])
+        }
+
+        return count;
+    }
+}
+
+// 
+
+class Solution {
+    public boolean backspaceCompare(String s, String t) {
+        Stack<Character> st=new Stack<>();
+        Stack<Character> st2=new Stack<>();
+
+        for(int i=0;i<n;i++){
+            char ch1=s.charAt(i);
+            char ch2=t.charAt(i);
+
+
+            if(ch1=='#'){
+                st.pop()
+            }else{
+                st.push(ch1);
+            }
+
+            if(ch1=='#'){
+                st2.pop()
+            }else{
+                st2.push(ch2);
+            }
+        }
+
+        while(st.size()>0 && st2.size()>0){
+            if(st.pop()!=st2.pop()) return false;
+        }
+        return true;
     }
 }
