@@ -370,7 +370,9 @@ class Solution {
         
         for(int i=0;i<arr.length;i++){
             if(arr[i]>limit) return false;
+            
             sum+=arr[i];
+            
             if(sum>limit){
                 sum=arr[i];
                 pair++;
@@ -706,11 +708,8 @@ class Solution {
                 }else{
                     l=mid+1;
                 }
-
-
 //right is sorted
             }else if(arr[mid]<arr[r] || arr[mid]<arr[l]){
-
                 if(arr[mid]<=tar && arr[r]>=tar){
                     l=mid+1;
                 }else {
@@ -859,9 +858,6 @@ class Solution {
          int r=(int)1e6;
 
          int dir[][]={{1,0},{0,1},{0,-1},{-1,0}};
-
-        
-
 
          while(l<=r){
             int mid=(l+r-1)>>1;
