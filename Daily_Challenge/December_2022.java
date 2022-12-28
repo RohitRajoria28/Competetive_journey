@@ -199,9 +199,71 @@ class Solution {
 class Solution {
     public int[] answerQueries(int[] nums, int[] queries) {
         Arrays.sor(nums);
-        int psum[]=new int[]
-        for(int i: nums){
-            nums[idx++]
+        int n=nums.length;
+        int psum[]=new int[n];
+       psum[0]=nums[0];
+       for(int i=1;i<nums.length;i++){
+           
+          psum[i]=psum[i-1]+nums[i];
+       }
+
+       int ans[]=new int[queries.length];
+       int idx=0;
+       for(int val: queries){
+
+
+          int l=0;
+          int r=n-1;
+
+          while(l<=r){
+            int mid=(l+r)/2;
+            if(psum[mid]>val){
+                r=mid-1;
+            }else{
+                l=mid+1;
+            }
+          }
+
+          ans[idx++]=l;
+       }
+
+
+       return ans;
+    }
+}
+
+// 27 december 
+
+class Solution {
+    public int maximumBags(int[] cap , int[] roc , int add ) {
+        
+        int n=cap.length;
+        int arr[]=new int[n];
+        int idx=0;
+        int frock=0;
+        int croc=0;
+        for(int i: cap){
+            frock+=i;
+            arr[idx]=i-roc[idx];
+            croc+=roc[idx];
+            idx++;
         }
+
+        int rem=frock-croc;
+
+        int count=0;
+        for(int i:arr){
+            if(i>0){
+                if(add>=i){
+                    add-=(i);                    
+                }else{
+                    break;
+                }
+            }
+            count++;
+        }
+
+        return count;
+
     }
 }

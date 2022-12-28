@@ -92,6 +92,7 @@ public class dfsQuestions {
                 }
             }
         }
+        
         return 4 * onceCount - 2 * nbrCount;
     }
 

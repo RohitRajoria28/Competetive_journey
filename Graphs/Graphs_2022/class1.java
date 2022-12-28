@@ -196,7 +196,9 @@ class Solution {
 		for(int d=0;d<4;d++){
 			int rr=r+dir[d][0];
 			int cc=c+dir[d][1];
-			
+			if(rr>=0 && cc>=0 && rr<arr.length && cc<arr[0].length  && arr[rr][cc]==1 ){
+    				dfsArea(arr,rr,cc,ans);
+			}
 		}
 	}
     public int maxAreaOfIsland(int[][] grid) {
@@ -211,6 +213,8 @@ class Solution {
 					mans=Math.max(ans,mans);
 				}
 			}
-		}        
+		}    
+
+		return mans;    
    }
 }
