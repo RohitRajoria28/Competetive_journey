@@ -267,3 +267,147 @@ class Solution {
 
     }
 }
+
+
+
+// 28 december 2022
+
+class Solution {
+    public int minStoneSum(int[] arr, int k) {
+        PriorityQueue<Integer> pq=new PriorityQueue<>((a,b)-> {
+            return b-a;
+        });
+        int ans=0;
+        int n=arr.length;
+        int count=k;
+
+        for(int i: arr){
+            pq.push(i);
+            ans+=i;
+        }
+
+        while(count-->0){
+            
+            int a=pq.poll();
+            pq.push(a-(a/2));
+            ans-=a-(a/2);
+        }
+        
+        return ans;
+    }
+}
+
+// 
+class Solution {
+    public void helper(int [][]graph,List<List<Integer>> ans,List<Integer> smallans,int src,int tar,boolean []vis){
+        if(vis) return ;
+        if(tar==src){
+            List<Integer> sans=new ArrayList<>(smallans);
+            sans.add(src);
+            ans.add(sans);
+
+            return ;
+        }
+
+        vis[src]=true;
+        smallans.add(src);
+
+        for(int []e:graph[src]){
+            helper(graph,ans,smallans,e,tar,vis);
+
+        }
+        smallans.remove(smallans.size()-1);
+        vis[src]=false;
+    }
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        boolean []vis=new boolean[graph.length];
+
+        List<List<Integer>> ans=new ArrayList<>();
+        int n=graph.length;
+        List<Integer> smallans=new ArrayList<>();
+        helper(graph,ans,smallans,0,n-1,vis);
+
+        return ans;
+    }
+}
+
+// leetcode 31 decemeber 22
+
+class Solution {
+    public int traveller(int [][]grid,int dir[][] ,boolean vis[][] ,int r,int c){
+        if(vis[r][c] || grid[r][c]==-1) return 0;
+
+        if(vis[r][c]==2 ){
+            for(int i=0;i<grid.length;i++){
+                for(int j=0;j<grid[0].length;j++){
+                    if(!grid[i][j] && grid[i][j]==0) return 0;
+                }
+            }
+            return 1;
+        } 
+
+
+        vis[r][c]=true;
+        int ans=0;
+        for(int d=0;d<4;d++){
+            int rr=r+dir[d][0];
+            int cc=c+dir[d][1];
+
+            ans+=(traveller(grid,dir,vis,rr,cc));
+        }
+
+        return ans;
+
+    }
+    public int uniquePathsIII(int[][] grid) {
+        int n=grid.length;
+
+        int m=grid[0].length;
+
+        boolean [][]vis=new boolean[n][m];
+
+        int dir[][]={{1,0},{-1,0},{0,-1},{0,1}};
+        int ans=0;
+
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if( grid[i][j]==1) {
+                    ans=traveller(grid,dir,vis,i,j);
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+
+
+
+// 
+
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        String arr[]=s.split(' ');
+        if(pattern.length() !=arr.length) return false;
+
+        HashMap<Character,String> map=new HashMap<>();
+        HashMap<String,Boolean> check=new HashMap<>();
+
+
+        for(int i=0;i<arr.length;i++){
+            char c=pattern.charAt(i);
+
+            if(map.containsKey(c)){
+                if(!map.get(c).equals(arr[i])) return false;
+            }else{
+                if(check.get(arr[i])) return false;
+
+                map.put(c,arr[i]);
+                check(arr[i],true);
+            }
+        }
+
+        return true;
+
+    }
+}
