@@ -27,3 +27,39 @@ class Solution {
     }
 } 
 
+
+
+// 3 january
+
+class Solution {
+    public int minDeletionSize(String[] strs) {
+        int ans=0;
+        
+        for(String s:strs){
+            boolean inc=false;
+            boolean dec=false;
+            boolean isSort=true;
+            for(int i=0;i<s.length();i++){
+                int curr=s.charAt(i)-'a';
+                int next=s.charAt(i+1)-'a';
+                if(i==0 && curr<next){
+                    inc=true;
+                }else if(i==0 && curr>next){
+                    dec=true;
+                }
+
+                if(inc && next<cur){
+                    isSort=false;
+                    break;
+                }
+
+                if(dec && next>cur){
+                    isSort=false;
+                    break;
+                }
+            }
+
+            if(isSort) ans++;
+        }
+    }
+}
