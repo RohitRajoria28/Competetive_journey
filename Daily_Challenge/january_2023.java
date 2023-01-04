@@ -35,31 +35,36 @@ class Solution {
     public int minDeletionSize(String[] strs) {
         int ans=0;
         
-        for(String s:strs){
-            boolean inc=false;
-            boolean dec=false;
-            boolean isSort=true;
-            for(int i=0;i<s.length();i++){
-                int curr=s.charAt(i)-'a';
-                int next=s.charAt(i+1)-'a';
-                if(i==0 && curr<next){
-                    inc=true;
-                }else if(i==0 && curr>next){
-                    dec=true;
-                }
-
-                if(inc && next<cur){
-                    isSort=false;
-                    break;
-                }
-
-                if(dec && next>cur){
-                    isSort=false;
+        for(int i=0;i<strs[0].length;i++){
+            for(int j=1;j<strs.length;j++){
+                if(strs[j].charAt(i)<strs[j-1].charAt(i)){
+                    ans++;
                     break;
                 }
             }
+        }
 
-            if(isSort) ans++;
+        return ans;
+    }
+}
+
+// jan 4
+
+class Solution {
+    public int minimumRounds(int[] arr) {
+        if(arr.length<2) return -1;
+
+        HashMap<Integer,Integer> map=new HashMap<>();
+
+        for(int i: arr){
+            map.put(i,map.getOrDefault(i,0)+1);
+        }
+        int ans=0;
+
+        for(int i: map.keySet()){
+            int tasks=map.get(i);
+            if(tasks<2) retrun -1;
+            
         }
     }
 }

@@ -94,3 +94,65 @@ class Solution {
          return res;
     }
 }
+
+// 
+
+class Solution {
+    int start=0;
+    int max=1;
+    public void oddevenpal(String s,int i,int j){
+        if(i<0 || j>=s.length()) return ;
+        while(i>=0 && j<s.length() && s.charAt(i)==s.charAt(j)){
+            i--;
+            j++;
+        }
+        if(max<(i-j+1)){
+            max=(i-j+1);
+            start=i;
+        }
+    }
+    public String longestPalindrome(String s) {
+         
+         int n=s.length();
+         for(int i=0;i<n;i++){
+            oddevenpal(s,i-1,i+1); // odd length
+            oddevenpal(s,i,i+1); // even length
+         }
+
+         return s.substring(start,start+max);
+    }
+}
+
+// leetcode 13
+
+class Solution {
+    public int findVal(String s){
+        int idx=0;
+        while( idx<s.length() ){
+
+            if(idx<s.length()-1 && map.get(s.charAt(i))<map.get(s.charAt(i+1))){
+                int minus=map.get(s.charAt(i));
+                int cval=map.get(s.charAt(i+1));
+
+                res+=(cval-minus);
+                idx+=2;
+            }else{
+                int cval=map.get(s.charAt(i));
+                res+=cval;
+                idx++;
+            }
+        }
+    }
+    public int romanToInt(String s) {
+        HashMap<Character,Integer> map=new HashMap<>();
+
+        map.put('I',1);
+        map.put('V',5);
+        map.put('X',10);
+        map.put('L',50);
+        map.put('C',100);
+        map.put('D',500);
+        map.put('M',1000);
+        int ans=findVal(s);
+    }
+}

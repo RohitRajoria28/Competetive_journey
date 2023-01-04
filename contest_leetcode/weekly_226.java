@@ -266,3 +266,87 @@ class Solution {
         
     }
 }
+// 
+
+class Solution {
+		public  void fillPrime(ArrayList<Integer> chprime,int high)
+	    {
+		        boolean[] ck=new boolean[high+1];
+		        Arrays.fill(ck,true);
+		        ck[1]=false;
+		        ck[0]=false;
+		     
+		    for(int i=2;(i*i)<=high;i++)
+		    {
+		        if(ck[i]==true)
+		        {
+		            for(int j=i*i;j<=Math.sqrt(high);j=j+i)
+		            {
+		                ck[j]=false;
+		            }
+		        }
+		    }
+		    for(int i=2;i*i<=high;i++)
+		    {
+		        if(ck[i]==true)
+		        {
+		   //         cout<< i<<"\n";
+		           chprime.add(i);
+		        }
+		    }
+		}
+ 
+    public List<Integer> segmentedSieve(int low,int high)
+    {
+        ArrayList<Integer> chprime= new ArrayList<Integer>();
+        fillPrime(chprime,high);
+        
+         
+        boolean[] prime=new boolean [high-low+1];
+        Arrays.fill(prime,true);
+        
+        for(int i:chprime)
+        {
+            int lower=(low/i);
+            if(lower<=1)
+            {
+            lower=i+i;
+            }
+            else if(low%i!=0)
+            {
+            lower=(lower*i)+i;
+            }
+            else{
+                lower=(lower*i);
+            }
+            for(int j=lower;j<=high;j=j+i)
+            {
+            prime[j-low]=false;
+            }
+        }
+        List<Integr> nums=new ArrayList<>();
+        for(int i=low;i<=high;i++)
+        {
+            if(prime[i-low]==true)
+            {
+            nums.add(i)
+            }
+        }    
+        return nums;
+    }
+    public int[] closestPrimes(int left, int right) {
+       List<Integr> ans=segmentedSieve(left,right);
+       Collections.sort(ans);
+       int dif=10000000;
+       int fans[]=new int[2];
+       for(int i=0;i<ans.size()-1;i++){
+       		if(diff>(ans.get(i+1)-ans.get(i)){
+       			diff=ans.get(i+1)-ans.get(i);
+       			fans[0]=ans.get(i);
+       			fans[1]=ans.get(i+1);
+       		}
+       }
+
+       return ans;
+    }
+}
