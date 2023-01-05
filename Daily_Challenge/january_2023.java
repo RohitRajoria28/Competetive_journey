@@ -64,7 +64,10 @@ class Solution {
         for(int i: map.keySet()){
             int tasks=map.get(i);
             if(tasks<2) retrun -1;
-            
+
+            ans+=(Math.ceil((double)tasks/3.0));
         }
+
+        return ans;
     }
 }
