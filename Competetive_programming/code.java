@@ -15,7 +15,7 @@ public class code {
             Scanner scn=new Scanner(System.in);
             //  int L=scn.nextInt();
             // int R=scn.nextInt();
-            print();
+            System.out.println(15^45^20^2^34^35^5^44^32^30); 
             
         } 
         public static void print(){

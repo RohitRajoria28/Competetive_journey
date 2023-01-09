@@ -137,3 +137,31 @@ class Codechef
    		System.out.println(-1);
    }
 }
+
+
+// 
+
+	public static void main(String[] args) {
+		int t = sc.nextInt();
+		while (t-- > 0) {
+			int N = sc.nextInt();
+			ArrayList<Integer> factors = new ArrayList<>();
+			for (int i = 1; i <= Math.sqrt(N); i++) {
+				if (N % i == 0) { 
+					if (N / i == i) {
+						factors.add(i);
+					} else {
+						factors.add(i);
+						factors.add(N / i);
+					}
+				}
+			}
+			Collections.sort(factors);
+			int A = factors.get(0), B = factors.get(1), C = N / (A * B);
+			if (N == 4 || A == C || B == C || factors.size() < 3) {
+				out.println(-1);
+				continue;
+			}
+			out.println(A + " " + B + " " + C);
+		}
+	}

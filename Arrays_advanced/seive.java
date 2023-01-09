@@ -119,7 +119,7 @@
         }
         public   void SegmentedSeive(int r,int l){
            
-            // step1 - find factors till right range
+            // step1 - find factors till right range using seive black box
              ArrayList<Integer> plRange=findPrimeInRange(r);
             
              // step 2 - make array of (r-l+1) and mark all in range as true(prime)
@@ -157,3 +157,37 @@
              }
              return ans;
         }
+
+// 
+
+	class Solution {
+		public int numPrimeArrangements(int n) {
+		    int pr=0;
+
+		    boolean pr[]=new int[n+1];
+		    
+		    Arrays.fill(pr,true);
+		    int prime=0;
+		    
+		    for(int i=1;i*i<=n;i++){
+		    	if(pr[i]==true){
+		    		prime++;
+		    		for(int j=i*i;j<=n;j+=i){
+		    			pr[i]=false;
+		    		}
+		    	}
+		    }
+
+		    int res=1;
+
+		    for(int i=2;i<=prime;i++){
+		    	res*=(res*i);
+		    }
+
+		    for(int i=2;i<=n-prime;i++){
+		    	res*=(res*i);
+		    }
+
+		    return res;
+		}
+	}

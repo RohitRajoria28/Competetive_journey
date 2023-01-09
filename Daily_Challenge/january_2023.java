@@ -71,3 +71,91 @@ class Solution {
         return ans;
     }
 }
+
+// 5 january
+
+class Solution {
+    public int findMinArrowShots(int[][] arr) {
+        if(arr.length<=1) return arr.length;
+
+        Arrays.sort(arr,(a,b)->{
+            if(a[0]==b[0]){
+                return a[1]-b[1];
+            }else{
+                return a[0]-b[0];
+            }
+        })
+
+        int pst=arr[0][0];
+        int pend=arr[0][1];
+        List<Integer []> list=new ArrayList<>();
+        list.add(new int[]{pst,pend});
+
+
+
+        for(int ar[]:arr){
+            int cst=ar[0];
+            int cend=ar[1];
+
+            
+            if(pend>=cst ){
+                list.remove(list.size()-1);
+                pst=Math.max(pst,cst);
+                pend=Math.min(pend,cend);
+            }else{
+                 pst= cst ;
+                pend= cend ;
+            }
+
+           
+
+            list.add(new int[]{pst,pend});
+
+        }
+
+        return list.size();
+    }
+} 
+
+
+// 6 january 
+
+class Solution {
+    public int maxIceCream(int[] arr, int coins) {
+        Arrays.sort(arr);
+        int idx=0;
+        while(coins>0){
+            if(coins>arr[idx]){
+                coins-=arr[idx++];
+                ans++;
+            }else{
+                break;
+            }
+        }
+
+        return idx;
+    }
+}
+
+// 7 january 
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int gtota=0;
+
+        for(int i:gas){
+            gtotal+=i;
+        }
+        int ctotal=0;
+        for(int i:cost){
+            cost+=ctotal;
+        }
+        if(gtotal<ctotal) return -1;
+
+        for(int i=0;i<gas.length;i++){
+            if(gas[i]-cost[i]>=0) return i;
+        }
+
+        return -1;
+    }
+}
