@@ -182,9 +182,14 @@ class Solution {
                 return false;
             }
 
-            // add the additonal power to he farthest 
-            
+            // add the additonal power to he farthest station
+            arr[Math.min(n-1,i+r)]+=reqPower;
+            addPower-=reqPower;
+            power+=reqPower;
          }
        }
+       if(i-r>=0) power-=arr[i-r];
     }
+
+    return true;
 }

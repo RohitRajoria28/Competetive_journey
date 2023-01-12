@@ -9,6 +9,7 @@ class Solution {
         
         int n=word.length();
         
+        
         if(n==1  ) return  isCapitle(word)==1?true:false;
 
         for(int i=0;i<word.length;i++){
@@ -63,7 +64,7 @@ class Solution {
 
         for(int i: map.keySet()){
             int tasks=map.get(i);
-            if(tasks<2) retrun -1;
+            if(tasks<2) return -1;
 
             ans+=(Math.ceil((double)tasks/3.0));
         }
@@ -84,7 +85,7 @@ class Solution {
             }else{
                 return a[0]-b[0];
             }
-        })
+        });
 
         int pst=arr[0][0];
         int pend=arr[0][1];
@@ -159,3 +160,72 @@ class Solution {
         return -1;
     }
 }
+
+// 8 january 
+
+class Solution {
+    public int maxPoints(int[][] points) {
+        int max=0;
+
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int total=2;
+
+                for(int k=0;k<n;k++){
+                    if(k!=i && k!=j){
+                        if(arr[j][1]-arr[i][1]/arr[j][0]-arr[i][0]==arr[i][1]-arr[k][1]/arr[i][1]-arr[k][1]){
+                            total++;
+                        }
+                    }
+                }
+                max=Math.max(max,total);
+            }
+        }
+
+
+        return max;
+    }
+} 
+
+
+class Solution {
+    public int maxPoints(int[][] arr) {
+        int max=0;
+    int n=arr.length;
+        if(n<2) return n;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int total=2;
+
+                for(int k=0;k<n;k++){
+                    if(k!=i && k!=j){
+                        if((arr[j][1]-arr[i][1])*(arr[i][1]-arr[k][1])==(arr[j][0]-arr[i][0])*(arr[i][1]-arr[k][1])){
+                            total++;
+                        }
+                    }
+                }
+                max=Math.max(max,total);
+            }
+        }
+
+
+        return max;
+    }
+} 
+
+// 10 january 
+class Solution {
+    public boolean helper(TreeNode node1,TreeNode node2){
+        if((node1==null &&  node2!=null) || (node1!=null &&  node2==null) ) return false;
+
+        if(node1==null && node2==null) return true;
+        
+        if(node1.val!=node2.val) return false;
+
+        return helper(node1.left,node2.left) && helper(node1.right,node2.right); 
+    }
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        return helper(p,q);
+    }
+}
+
