@@ -229,3 +229,322 @@ class Solution {
     }
 }
 
+
+// 12 january 2023
+
+
+class Solution {
+    public class edge{
+        int val;
+        char c;
+
+        edge(int val,char c){
+            this.val=val;
+            this.c=c;
+        }
+    }
+    public int helper(List<edge>[] graph,int u,char ch){
+        int ans=0;
+        for(edge e:graph[u]){
+            if(e.c==ch){
+                ans++;
+            }
+            ans+=helper(graph,e.val,ch);
+        }
+        return ans;
+    }
+    public int[] countSubTrees(int n, int[][] edges, String labels) {
+        int n;
+        List<edge>[] graph=new ArrayList<>()[n];
+
+        for(int i=0;i<n;i++){
+            graph[i]=new ArrayList<>();
+        }
+        graph[0].add(new pair(0,labels.charAt(0)));
+        for(int a[]:edges){
+            int u=a[0];
+            int v=a[1];
+            char c=labels.
+            graph[u].add(new pair(v,c));
+        }
+        int ans[]=new int[n];
+        Arrays.fill(ans,1);
+
+        for(int i=0;i<n;i++){
+            int c=labels.charAt(i);
+            ans[i]+=helper(graph,i,c);
+        }
+        return ans;
+    }
+}
+// 
+
+class Solution {
+    public int[] countSubTrees(int n, int[][] edges, String labels) {
+        Map<Integer,List<Integer>> g=new HashMap<>();
+
+        for (int[] e : edges) {
+            g.computeIfAbsent(e[0], l -> new ArrayList<>()).add(e[1]);
+            g.computeIfAbsent(e[1], l -> new ArrayList<>()).add(e[0]);
+        }     
+
+        HashSet<Integer> set=new HashSet<>();
+        int ans[]=new int[n];
+
+        dfs(g,0,ans,set,labels);
+    }
+    private int[] dfs(Map<Integer,List<Integer>> g,int node,int ans[],HashSet<Integer> set,String lab){
+        int count[]=new int[26];
+        if(set.add(node)){
+            char c=lab.charAt(node);
+
+            for (int child : g.getOrDefault(node, Collections.emptyList())) {
+                int sub[]=dfs(g,child,ans,set,lab);
+                for(int i=0;i<26;i++){
+                    count[i]+=sub[i];
+                }
+            }
+            count[c-'a']++;
+            ans[node]+=count[c-a];
+        }
+
+        return count;
+    }
+
+}
+
+// 13 january 
+// 2246. Longest Path With Different Adjacent Characters
+ class Solution {
+    int longest=1;
+    public int longestPath(int[] parent, String s) {
+        Map<Integer,List<Integer>> g=new HashMap<>();
+        int n=parent.length;
+        for(int i=1;i<n;i++){
+            g.putIfAbsent(parent[i],new ArrayList<>());
+            g.get(parent[i]).add(i);
+        }
+
+        dfs(g,0,s);
+        return longest;
+    }
+    public int dfs(Map<Integer,List<Integer>> g,int src,String s){
+        int max=0;
+        int smax=0;
+
+        for(int nbr:g.get(src)){
+            int ans=dfs(g,nbr,s);
+
+            if(s.charAt(src)-'a'==s.charAt(nbr)-'a') continue;
+
+            if(ans>max){
+                smax=max;
+                max=ans;
+            }else if(ans>smax){
+                sman=ans;
+            }
+        }
+
+        longest=Math.max(longest,max+smax+1);
+        return max+1;
+    }
+}
+
+// leetcode 1061. Lexicographically Smallest Equivalent String
+
+class Solution {
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        HashMap<Character> set=new HashSet<>();
+
+        HashMap<Integer,List<Character>> map=new HashMap<>();
+
+        for(int i=0;i<s1.length();i++){
+            char c1=s1.charAt(i);
+            char c2=s2.charAt(i);
+
+            int count=0;
+
+            if(set.contains(c1) || set.contains(c2)){
+
+            }else{
+                count++;
+            
+                map.put(count,new ArrayList<>());
+            
+                map.put(count,c1);
+                map.put(count,c2);
+            }
+
+        }
+    }
+}
+
+// 
+class Solution {
+    int[] root = new int[26];
+
+    // recursively get the root element
+    int get(int x) {
+        return x == root[x] ? x : (root[x] = get(root[x]));
+    }
+
+    // unite two elements
+    void unite(int x, int y) {
+        // find the root of x
+        x = get(x);
+        // find the root of y
+        y = get(y);
+        // if their roots are not same, we combine them
+        if (x != y) {
+            // smaller first
+            if (x < y)  root[y] = x;
+            else root[x] = y;
+        }
+        return;
+    }
+    
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        String ans = "";
+        // init root. initialy each element is in its own group.
+        for (int i = 0; i < 26; i++)  root[i] = i;
+        // unite each character
+        for (int i = 0; i < s1.length(); i++) unite(s1.charAt(i) - 'a', s2.charAt(i) - 'a');
+        // build the final answer from the root element (smallest)
+        for (int i = 0; i < baseStr.length(); i++) {
+            ans += (char)(get(baseStr.charAt(i) - 'a') + 'a');
+        }
+        return ans;
+    }
+}
+
+// 
+
+class Solution {
+    public int get(int []root,int x){
+        if(root[x]==x) return x;
+
+        return root[x]==x?x:get(root[x]);
+    }
+    public void unite(int root[],int x,int y){
+        int x=get(root,x);
+        int y=get(root,y);
+
+        if(x!=y){
+            if(y>x) root[y]=x;
+            else root[x]=y;
+        }
+
+    }
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        int root[]=new int[26];
+
+        for(int i=0;i<26;i++) root[i]=i;
+
+        for(int i=0;i<s1.length();i++){
+            unite(root,s1.charAt(i)-'a',s2.charAt(i)-'a');
+        }
+
+        for(int i=0;i<baseStr.length();i++){
+            char ss=baseStr.charAt(i);
+            str.append((char)(get(root[ss-'a'])+'a'));
+        }
+
+
+        return set.toString();
+    }
+}
+
+// 16 january 2023
+
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<Integer[]> list=new ArrayList<>();
+        for(int []a:intervals){
+            list.add(a);
+        }
+        for(int a[]:  newInterval){
+            list.add(a);
+        }
+        Collections.sort(list,(a,b)->{
+            return a[0]-b[0];
+        });
+
+        int sarr[]=list.get(0);
+        int sp=sarr[0];
+        int ep=sarr[1];
+
+        List<int[]> ans=new ArrayList<>();
+
+        for(int i=1;i<list.size();i++){
+            int ar[]=list.get(i);
+
+            int sc=ar[0];
+            int ec=ar[1];
+
+            if(ep>sc){
+                sc=Math.min(sp,sc);
+                ec=Math.max(ep,ec);
+                 
+            }
+            ans.add(new int[]{sc,ec});
+            sp=sc;
+            ep=ec;
+        }
+        int fans[][]=new int[ans.length()][2];
+        for(int i=0;i<fans.length;i++){
+            fans[i][0]=list.get(i)[0];
+            fans[i][1]=list.get(i)[1];
+        }
+        return fans;
+    }
+}
+
+// 
+
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> ans=new ArrayList<>();
+        int i=0;
+        // add intervals which ending is smaller than starting of new Interval
+        while( i<intervals.length &&  intervals[i][1]<newInterval[0]){
+            ans.add(new int[]{intervals[0],intervals[1]});
+            i++;
+        }
+        while(i<intervals.length && intervals[i][0]<=newInterval[1]){
+            newInterval[0]=Math.min(intervals[i][0],newInterval[i][0]);
+            newInterval[1]=Math.max(intervals[i][1],newInterval[i][1]);
+            i++;
+        }
+        ans.add(newInterval);
+
+        while(i<intervals.length ){
+            ans.add(intervals[i]);
+            i++;
+        }
+
+        return ans.toArray(new int[ans.size()][]);
+    }
+}
+
+// 17january  
+
+class Solution {
+    public int minFlipsMonoIncr(String s) {
+        int zero=0;
+        int ones=0;
+
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)-'0'==0) {
+                zero=Math.min(zero+1,one);
+            }else{
+                one++;
+            }
+        }
+
+         
+
+        return zero;
+
+    }
+}
+

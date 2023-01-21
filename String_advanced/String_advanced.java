@@ -321,3 +321,98 @@ class Solution {
     }
     
 }    
+
+// STRING ANDS
+
+// q1
+
+public class LongestWord {
+    final static  String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    final static String ALPHABET_UPPER = ALPHABET.toUpperCase();
+
+    public static String LongestWord(String sen) {
+        String[] words = sen.split("\\s");
+        String longestWord = null;
+        int longestWordLength = 0;
+
+        for (String word : words) {
+            int wordLength = getWordLength(word);
+            if (longestWord == null || wordLength > longestWordLength) {
+                longestWord = word;
+                longestWordLength = wordLength;
+            }
+        }
+
+        return longestWord;
+    }
+
+    int getWordLength(String str) {
+        int length = 0;
+
+        for (char c : str.toCharArray()) {
+            if (ALPHABET.indexOf(c) > -1 || ALPHABET_UPPER.indexOf(c) > -1) {
+                length++;
+            }
+        }
+        return length;
+    }
+
+    // q2 UPPER-> lower
+
+    final static String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    final static String LOWER = UPPER.toLowerCase();
+
+    public static String SwapCase(String str) {
+        StringBuilder result = new StringBuilder("");
+
+        for (char c : str.toCharArray()) {
+            int index = UPPER.indexOf(c);
+            if (index != -1) {
+                result.append(LOWER.charAt(index));
+            } else {
+                index = LOWER.indexOf(c);
+
+                if (index != -1) {
+                    result.append(UPPER.charAt(index));
+                } else {
+                    result.append(c);
+                }
+            }
+        }
+
+        return result.toString();
+    }
+
+    // q4
+
+#include <iostream>
+#include <string>
+#include<stack>
+using namespace std;
+
+int RemoveBrackets(string str) {
+  stack<char> list;
+
+  for(int x=0;x<str.length();x++){
+    if(str[x]=='('){
+      list.push(str[x]);
+    }else if(str[x]==')'){
+      if(!list.empty() && list.top()=='('){
+        list.pop();
+      }else{
+        list.push(str[x]);
+      }
+    }
+  }
+     
+  return list.size();
+
+}
+
+int main(void) { 
+   
+  // keep this function call here
+  cout << RemoveBrackets(coderbyteInternalStdinFunction(stdin));
+  return 0;
+    
+}

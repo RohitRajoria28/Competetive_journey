@@ -146,3 +146,84 @@ class Solution {
  		return arr;  
     }
 }
+
+// Quick Sort -> gfg
+
+
+class Solution
+{
+    //Function to sort an array using quick sort algorithm.
+    public static void swap(int arr[],int i,int j){
+	            int t=arr[i];
+	            arr[i]=arr[j];
+	            arr[j]=t; 
+    }
+    static void quickSort(int arr[], int lo, int hi )
+    {
+         if(lo==hi) return;
+         
+         int pi=partition(arr,lo,hi);
+            
+         quickSort(arr,lo,pi-1);
+         quickSort(arr,pi+1,hi);
+
+    }
+    static int partition(int arr[], int lo, int hi)
+    {
+         if(lo==hi) return lo;
+
+         int i=lo-1;
+
+         for(int j=lo;j<=hi;j++){
+         	if(arr[j]<arr[hi]){
+         		i++;
+         		swap(arr,i,j);
+         	}
+
+         }
+         swap(i+1,hi);
+         return i+1;
+    } 
+}
+// COUNT SORT 
+
+class Solution {
+    public int[] sortArray(int[] nums) {
+        int min=(int)1e9;
+        int max=-1;
+
+        for(int i:nums){
+        	max=Math.max(max,i);
+        	min=Math.min(min,i);
+        }
+        int rg=max-min+1;
+        int range[]=new int[max-min+1];
+
+        // index= (number - min)
+        for(int i: nums){
+        	range[i-min]++;
+        }
+        //prefixSum array make a array of Range until the index
+        for(int i=0;i<rg;i++){
+        	if(i==0){
+        		continue;
+        	}
+        	range[i]+=range[i-1];
+        }
+//  make a maximum index of a value in range
+        for(int i=0;i<rg;i++){
+        	range[i]-=1;
+        }
+        int ans[]=new int[nums.length];
+//         putting al; the value and updating the indx
+        for(int i=nums.length-1;i>=0;i--){
+        	int val=nums[i];
+        	int idx=range[val-min];
+        	ans[idx]=val;
+        	range[val-min]-=1;
+        }
+
+        return ans;
+
+    }
+}
